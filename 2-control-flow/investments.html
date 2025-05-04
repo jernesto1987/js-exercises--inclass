@@ -46,6 +46,22 @@
         and display the resulting number of years and actual ending balance on the page.
     </p>
 
+    <label>Initial balance:</label>
+    <input id="initial-balance" type="number" placeholder="150000" value="150000"></input><br>
+    <label>Desired ending balance:</label>
+    <input id="desired-balance" type="number" placeholder="170000" value="170000"></input><br>
+    <label>Mean:</label>
+    <input id="mean-input" type="number" placeholder="0.08" value="0.08"></input><br>
+    <label>Standard Deviation:</label>
+    <input id="std-input" type="number" placeholder="0.15" value="0.15"></input><br><br>
+    <button id="simulate">Simulate</button>
+
+    <br><br>
+    <label>Actual ending balance:</label>
+    <span id="display-actual-ending-balance">TODO</span>
+    <br>
+    <label>Number of years:</label>
+    <span id="display-num-years">TODO</span>
 
 
     <script src="https://cdn.jsdelivr.net/npm/d3-random@3"></script>
@@ -58,24 +74,74 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        var initialSavings = 150000
+        const avgReturn = 0.08
+        var finalSavings = initialSavings
+        var numYears = 0
 
+        while (finalSavings < 1000000) {
+            var earnedAmount = finalSavings * avgReturn
+            finalSavings = finalSavings + earnedAmount
+            numYears = numYears + 1
+        }
 
-
-
+        console.log("Original balance: ", formatUSD(initialSavings))
+        console.log("Number of years:", numYears)
+        console.log("Actual ending balance: ", formatUSD(finalSavings))
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        var initialSavingsRand = 150000
+        var avgReturnRandGenerator = d3.randomNormal(0.08, 0.15)
+        var finalSavingsRand = initialSavingsRand
+        var numYearsRand = 0
 
+        while (finalSavingsRand < 1000000) {
+            var avgReturnRand = avgReturnRandGenerator()
+            var earnedAmountRand = finalSavingsRand * avgReturnRand
 
+           console.log("Year: ", numYearsRand, ", Random rate: ", avgReturnRand.toFixed(2))
 
+            finalSavingsRand = finalSavingsRand + earnedAmountRand
+            numYearsRand = numYearsRand + 1
+        }
 
+        console.log("Original balance: ", formatUSD(initialSavingsRand))
+        console.log("Number of years:", numYearsRand)
+        console.log("Actual ending balance: ", formatUSD(finalSavingsRand))
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var initialSavingsInput= document.getElementById("initial-balance")
+        var meanInput= document.getElementById("mean-input")
+        var stdInput= document.getElementById("std-input")
+        var btn = document.getElementById("simulate")
 
+        function submit(){
 
+            var avgReturnRandGeneratorInput = d3.randomNormal(meanInput.value, stdInput.value)
+            var finalSavingsInput = parseFloat(initialSavingsInput.value)
+            var numYearsInput = 0
+
+            while (finalSavingsInput < 1000000) {
+                var avgReturnInput = avgReturnRandGeneratorInput()
+                var earnedAmountInput = finalSavingsInput * avgReturnInput
+
+                console.log("Year: ", numYearsInput, ", Random rate: ", avgReturnInput)
+
+                finalSavingsInput = finalSavingsInput + earnedAmountInput
+
+                numYearsInput = numYearsInput + 1
+            }
+
+            document.getElementById("display-actual-ending-balance").innerHTML = formatUSD(finalSavingsInput)
+            document.getElementById("display-num-years").innerHTML = numYearsInput
+            
+        }
+
+        btn.addEventListener("click", submit, false)
 
     </script>
 </body>
