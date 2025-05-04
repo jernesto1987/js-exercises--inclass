@@ -64,24 +64,41 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        var celcius = -277
+        var farenheit =  ((9/5)*celcius + 32).toFixed(0) 
 
-
-
+        console.log("Reported temperature (C): ", celcius)
+        console.log("Reported temperature (F): ", farenheit)
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        function calculateTemp(tempC) {
+            return (9/5)*tempC + 32
+        }
 
+        var celciusInput = -277
+        var farenheitOutput = calculateTemp(celciusInput).toFixed(0)
 
-
-
+        console.log("Reported temperature (C): ", celciusInput)
+        console.log("Reported temperature (F): ", farenheitOutput)
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var inputC = document.getElementById("input-temp-c")
+        var btn = document.getElementById("calculate")
 
+        function submit(){
+            var celciusInputForm = inputC.value
+            var farenheitOutputForm = calculateTemp(celciusInputForm).toFixed(0)
+            console.log("Reported temperature (C): ", celciusInputForm)
+            console.log("Reported temperature (F): ", farenheitOutputForm)
 
+            document.getElementById("display-temp-f").innerHTML = farenheitOutputForm
+        }
 
+        btn.addEventListener("click", submit, false)
 
     </script>
 </body>
