@@ -87,16 +87,63 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A)")
+        console.log("Your driver is", trip.driver.first_name)
 
+        console.log("B)")
+        console.log("The License plate number is", trip.vehicle.licensePlate)
 
+        console.log("C)")
+        console.log("Number of stops:", trip.stops.length)
 
+        console.log("D)")
+        console.log("First stop destination:", trip.stops[0].destination)
+
+        console.log("E)")
+        console.log("Last stop destination:", trip.stops[trip.stops.length-1].destination)
+
+        console.log("F)")
+        console.log("Passanger names per stop:")
+        trip.stops.forEach(function(stop) {
+            console.log(stop.passenger)
+        });
+
+        function formatUSD(price) {
+            return "$" + parseFloat(price).toFixed(2)
+        }
+        
+        console.log("G)")
+        var fares = trip.stops.map(function(stop) {
+            return stop.fare
+        })
+        console.log("Fares:", fares)
+
+        console.log("H)")
+        console.log("Sum:", formatUSD(d3.sum(fares)))
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        function createList(data) {
+            if (!data || data.length === 0) {
+                return '<p>No data to display.</p>';
+            }
+            let divHTML = `<ol id="display-passengers">`;
+                data.forEach(item => {
+                    divHTML += `<li>${item.passenger}</li>`
+                });
+            divHTML += `</ol>`
+            return divHTML;
+        }
 
+        var rideshareDriverSpan = document.getElementById("display-driver")
+        rideshareDriverSpan.innerHTML = trip.driver.first_name
 
+        var rideshareVehicleSpan = document.getElementById("display-vehicle")
+        rideshareVehicleSpan.innerHTML = "Make:" + trip.vehicle.make + ", Model:" + trip.vehicle.model + ", License plate:" + trip.vehicle.licensePlate
 
+        var ridesharePassangerSpan = document.getElementById("display-passengers")
+        ridesharePassangerSpan.innerHTML = createList(trip.stops);
 
     </script>
 
