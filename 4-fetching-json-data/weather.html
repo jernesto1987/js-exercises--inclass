@@ -86,18 +86,84 @@
             .then(function(data){
                 console.log("DATA", data)
 
-
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("A)")
+                console.log("Fetched data:", data)
 
+                console.log("B)")
+                console.log("Data generation date:", data.properties.generatedAt.split("T")[0])
 
+                console.log("C)")
+                console.log("Number of periods:", data.properties.periods.length)
+
+                console.log("D)")
+                var daytimePeriods = data.properties.periods.filter((period) => period.isDaytime == true)
+                console.log("Daytime periods:", daytimePeriods)
+
+                console.log("E)")
+                console.log("Number of Daytime periods:", daytimePeriods.length)
+
+                console.log("F)")
+                daytimePeriods.forEach(function(period) {
+                    console.log("Period name:", period.name,"- Temperature:" ,period.temperature + period.temperatureUnit, "- Forecast:", period.shortForecast)
+                });
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                var generatedAt = document.getElementById("display-date")
+                generatedAt.innerHTML = data.properties.generatedAt.split("T")[0]
 
+                //The function below was taken from Goggle AI after searching for "javascript map array of objects to table"
 
+                function createTable(data) {
+                    if (!data || data.length === 0) {
+                        return '<p>No data to display.</p>';
+                    }
+
+                    let tableHTML = '<table style="border:1px solid black;">';
+
+                    // Create table header
+                    tableHTML += '<thead><tr>';
+                    for (const key in data[0]) {
+                        if(key == "name" || key == "temperature" || key == "shortForecast" || key == "icon"){
+                            tableHTML += `<th>${key}</th>`;
+                        }
+                    }
+                    tableHTML += '</tr></thead>';
+
+                    // Create table body
+                    tableHTML += '<tbody>';
+                    data.forEach(item => {
+                        tableHTML += '<tr>';
+                        for (const key in item) {
+                            if((key == "name" || key == "temperature" || key == "shortForecast") && (key != "icon")){
+                                if(key == "temperature"){
+                                    tableHTML += `<td>${item[key]}F</td>`;
+                                }else{
+                                    tableHTML += `<td>${item[key]}</td>`;
+                                }
+                            }else if (key == "icon"){
+                                tableHTML +=`<td><img src=${item[key]} /></td>`;
+                            }
+                        }
+                        tableHTML += '</tr>';
+                    });
+                    tableHTML += '</tbody></table>';
+
+                    return tableHTML;
+                }
+
+                var weatherTable = document.getElementById("display-forecast")
+                weatherTable.innerHTML = createTable(daytimePeriods)
+
+                var firstRow = weatherTable.rows[0];
+                firstRow.cells[0].innerHTML = "Period"
+                firstRow.cells[1].innerHTML = "Temperature"
+                firstRow.cells[2].innerHTML = "Icon"
+                firstRow.cells[3].innerHTML = "Forecast"
 
             })
             .catch(err => console.log(err))
