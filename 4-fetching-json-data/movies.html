@@ -71,8 +71,6 @@
         <div id="image-container"></div>
     </div>
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
     <script type="text/javascript">
 
@@ -82,22 +80,63 @@
             .then(function(data){
                 console.log("DATA", data)
 
-
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("A)")
+                console.log("Fetched data:", data)
 
+                console.log("B)")
+                console.log("Number of movies:", data.length)
 
+                console.log("C)")
+                data.forEach(function(movie) {
+                    console.log("Title:", movie.Title,"- Year:" , movie.Year)
+                });
 
-
+                console.log("C)")
+                var sortedMovies = data.sort(function(a,b) {
+                    return d3.descending(a.Rating, b.Rating)
+                })
+                console.log("Highest rated movie:", sortedMovies[0].Title + " - Rating:" + sortedMovies[0].Rating)
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                console.log("A)")
+                var movieSelector = document.getElementById("select-movie")
+                data.forEach(function(movie) {
+                    const option = document.createElement('option');
+                    option.value = movie.Id;
+                    option.text = movie.Title;
+                    movieSelector.add(option);
+                });
 
+                var displayTitle = document.getElementById("display-title")
+                var displayYear = document.getElementById("display-year")
+                var displayRating = document.getElementById("display-rating")
+                var displayImage = document.getElementById("image-container")
 
+                function updateMovieInfo(selectedValue) {
+                    if(selectedValue != "N/A"){
+                        var foundMovie = data.find((item) => item.Id == selectedValue);
+                        displayTitle.innerHTML = foundMovie.Title
+                        displayYear.innerHTML = foundMovie.Year
+                        displayRating.innerHTML = foundMovie.Rating
+                        displayImage.innerHTML = "<img src=" + foundMovie["Thumbnail Image URL"] + ">"
+                    }else{
+                        displayTitle.innerHTML = "TODO"
+                        displayYear.innerHTML = "TODO"
+                        displayRating.innerHTML = "X"
+                        displayImage.innerHTML = ""
+                    }
+                }
 
-
+                movieSelector.addEventListener('change', function(event) {
+                    var selectedValue = event.target.value;
+                    updateMovieInfo(selectedValue)  
+                });
+                
             })
             .catch(err => console.log(err))
 
