@@ -127,7 +127,20 @@
             console.log("---------------------")
             console.log("PART 2...")
 
-            
+            function createList(data) {
+                if (!data || data.length === 0) {
+                    return '<p>No data to display.</p>';
+                }
+                let divHTML = `<ul id="display-groceries">`;
+                    data.forEach(product => {
+                        divHTML += `<li>Product: ${product.name}, Price: ${formatUSD(parseFloat(product.price))}</li>`
+                    });
+                divHTML += `</ul>`
+                return divHTML;
+            }
+
+            var productsULList = document.getElementById("display-groceries")
+            productsULList.innerHTML = createList(data);
 
             }).catch(function(error) {
                 console.error("ERROR:", error)
