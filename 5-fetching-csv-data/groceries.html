@@ -82,22 +82,52 @@
             console.log("---------------------")
             console.log("PART 1...")
 
+            console.log("A)")
+            console.log("Fetched data:", data)
 
+            console.log("B)")
+            console.log("Number of products:", data.length)
 
+            console.log("C)")
+            data.forEach(function(product) {
+                    console.log("Name:", product.name,"- Price:" , formatUSD(parseFloat(product.price)))
+            });
 
+            console.log("D)")
+            var departments = []
+            data.forEach(function(product) {
+                if(departments.indexOf(product.department) == -1){
+                    departments.push(product.department)
+                }
+            });
+            console.log("Departments:", departments)
 
+            console.log("E)")
+            console.log("Number of departmens:", departments.length)
+
+            console.log("F)")
+            departments.forEach(function(department) {
+                    console.log((department).toUpperCase())
+            });
+
+            console.log("G)")
+            var beverages = data.filter((product) => product.department == "beverages")
+            console.log("Beverages:", beverages)
+
+            console.log("H)")
+            console.log("Number of beverages:", beverages.length)
+
+            console.log("I)")
+            var beveragePrices = []
+            beverages.forEach(function(product) {
+                beveragePrices.push(product.price)
+            });
+            console.log("Average:", formatUSD(parseFloat(d3.mean(beveragePrices).toFixed(2))))
 
             console.log("---------------------")
             console.log("PART 2...")
 
-
-
-
-
-
-
-
-
+            
 
             }).catch(function(error) {
                 console.error("ERROR:", error)
