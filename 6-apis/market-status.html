@@ -92,14 +92,56 @@
             console.log("---------------------")
             console.log("PART 1...")
 
+            console.log("A)")
+            console.log("Fetched data:", data)
+            
+            console.log("B)")
+            console.log("Number of markets:", data.markets.length)
 
+            console.log("C)")
+            var equityMarkets = data.markets.filter((market) => market.market_type == "Equity")
+            console.log("Equity markets:", equityMarkets)
 
+            console.log("D)")
+            console.log("Number of equity markets:", equityMarkets.length)
 
+            console.log("E)")
+            equityMarkets.forEach(function(market) {
+                    console.log("Market Type:", market.market_type,"- Region:" , market.region)
+            });
+
+            console.log("F)")
+            var market = equityMarkets.filter((market) => market.region == "United States")
+            console.log("US Equity market:", market)
+
+            console.log("G)")
+            market.forEach(function(marketUS) {
+                    console.log("Market Type:", marketUS.market_type)
+                    console.log("Primary Exchanges:", marketUS.primary_exchanges)
+                    console.log("Local Open:", marketUS.local_open)
+                    console.log("Local Close:", marketUS.local_close)
+                    console.log("Market Status:", marketUS.current_status.toUpperCase())
+            });
 
             console.log("---------------------")
             console.log("PART 2...")
 
+            console.log("A)")
+            var spanRegion = document.getElementById("display-region")
+            var spanType = document.getElementById("display-type")
+            var spanExchanges = document.getElementById("display-exchanges")
+            var spanLocalOpen = document.getElementById("display-open")
+            var spanLocalClose = document.getElementById("display-close")
+            var spanStatus = document.getElementById("display-status")
 
+            market.forEach(function(marketUS) {
+                spanRegion.innerHTML = marketUS.region
+                spanType.innerHTML = marketUS.market_type
+                spanExchanges.innerHTML = marketUS.primary_exchanges
+                spanLocalOpen.innerHTML = marketUS.local_open
+                spanLocalClose.innerHTML = marketUS.local_close
+                spanStatus.innerHTML = marketUS.current_status
+            });
 
 
         }).catch(function(error) {
